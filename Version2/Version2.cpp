@@ -60,9 +60,6 @@ int main() { // Version 2 : Enregistrement de l'ASCII art
 	fichier.read(reinterpret_cast<char*>(donnees.data()), taille);
 
 
-	string output_str;
-
-
 	ofstream output(output_txt);
 
 	for (int j = 0; j < hauteur; j++) {

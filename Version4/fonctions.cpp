@@ -1,12 +1,6 @@
 #include <iostream>
-#include <vector>
-#include <string>
-#include <fstream>
 
 #include "fonctions.h"
-
-#define NOMINMAX
-#include <windows.h>
 
 using namespace std;
 

@@ -18,12 +18,8 @@ int main(int argc, char* argv[]) {
 
 	//Definition des variables
 	string nomfichierpalette, output_txt, ligne, fichierpgm;
-	int width, height; //valeurs souhaitées pour l'image finale
+	int width = 0, height = 0; //valeurs souhaitées pour l'image finale
 	int facteur_width, facteur_height; //facteurs de réduction pour l'image finale
-
-
-	// on prends le facteur le plus petit pour ne pas déformer l'image
-	int facteur = min(facteur_height, facteur_width);
 
 	//Arguments
 	for (int i = 1; i < argc; ++i)
@@ -94,6 +90,12 @@ int main(int argc, char* argv[]) {
 	getline(fichier, ligne);
 	fichier >> largeur >> hauteur;
 	fichier.ignore(numeric_limits<streamsize>::max(), '\n');
+	if (width == 0)
+		width = largeur;
+	if (height == 0)
+		height = hauteur;
+	facteur_width = largeur / width;
+	facteur_height = hauteur / height;
 
 	//palette par défaut si --palette n'est pas renseigné
 	vector<string> palette;
@@ -128,13 +130,6 @@ int main(int argc, char* argv[]) {
 		return 1;
 	}
 
-	//Parcours de l'en-tete
-	getline(fichier, ligne);
-	getline(fichier, ligne);
-
-	int largeur, hauteur; // valeurs réelles de l'image
-	fichier >> largeur >> hauteur;
-	fichier.get();
 	int taille = largeur * hauteur;
 
 	// Pixels
@@ -156,11 +151,7 @@ int main(int argc, char* argv[]) {
 	//parcours des pixels et écriture dans le fichier output
 	for (int j = 0; j < height; j++) {
 		for (int i = 0; i < width; i++) {
-			int valeur_pixel = donnees[(j * facteur) * largeur + (i * facteur)]; //valeur du pixel à la position (i,j)
-			facteur_width = largeur / width; //facteur de réduction en largeur
-			facteur_height = hauteur / height; //facteur de réduction en hauteur
-
-			valeur_pixel = donnees[j * facteur_height * largeur + i * facteur];
+			int valeur_pixel = donnees[j * facteur_height * largeur + i * facteur_width];
 			output << palette[valeur_pixel * taillePalette / 256];
 		}	
 		output << "\n";
