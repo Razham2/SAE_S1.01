@@ -15,7 +15,9 @@ int main(int argc, char* argv[]) {
 	SetConsoleOutputCP(CP_UTF8);
 	SetConsoleCP(CP_UTF8);
 
+	//Definition des variables
 	string nomfichierpalette, output_txt, ligne, fichierpgm;
+	int largeur, hauteur;
 
 	//Arguments
 	for (int i = 1; i < argc; ++i)
@@ -43,6 +45,24 @@ int main(int argc, char* argv[]) {
 		{
 			afficherAide();
 			return 0;
+		}
+
+		else if (arg == "--width" && i + 1 < argc)
+		{
+			largeur = stoi(argv[i + 1]); //stoi convertit une chaîne de caractères en entier
+			i++;
+		}
+
+		else if (arg == "--height" && i + 1 < argc)
+		{
+			hauteur = stoi(argv[i + 1]); 
+			i++;
+		}
+
+		else
+		{
+			cerr << "Argument inconnu : " << arg << "\n";// sert à indiquer qu'une erreur s'est produite
+			return 1;
 		}
 
 	}
@@ -97,6 +117,17 @@ int main(int argc, char* argv[]) {
 
 	int taillePalette = palette.size();
 
+	if (taillePalette == 0) {
+		cerr << "palette vide\n";
+		return 1;
+	}
+
+	//Parcours de l'en-tete
+	getline(fichier, ligne);
+	getline(fichier, ligne);
+
+	fichier >> largeur >> hauteur;
+	fichier.get();
 	int taille = largeur * hauteur;
 
 	// Pixels
@@ -111,6 +142,11 @@ int main(int argc, char* argv[]) {
 	// Écriture dans le fichier output
 	ofstream output(output_txt);
 
+	if (!output.is_open()) {
+		cerr << "problème d'ouverture du fichier " << output_txt << "\n";
+		return 1;
+	}
+	//parcours des pixels et écriture dans le fichier output
 	for (int j = 0; j < hauteur; j++) {
 		for (int i = 0; i < largeur; i++) {
 			int valeur_pixel = donnees[j * largeur + i];
