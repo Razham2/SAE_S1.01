@@ -11,7 +11,7 @@
 
 using namespace std;
 
-int main(int argc, char* argv[]) {//Redimensionnement d'image via argument dans le cmd
+int main(int argc, char* argv[]) {//Version 5 : Redimensionnement d'image via argument dans le cmd
 
 	SetConsoleOutputCP(CP_UTF8);
 	SetConsoleCP(CP_UTF8);
