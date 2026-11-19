@@ -19,7 +19,7 @@ int main(int argc, char* argv[]) {
 	string nomfichierpalette, output_txt, ligne, fichierpgm;
 	int largeur, hauteur;
 
-	//aguments
+	//Arguments
 	for (int i = 1; i < argc; ++i)
 	{
 		string arg = argv[i];
@@ -67,13 +67,27 @@ int main(int argc, char* argv[]) {
 
 	}
 
-
-	//ouverture du fichier PGM
-	ifstream fichier(fichierpgm, ios_base::binary);
-	if (!fichier.is_open()) {
-		cerr << "problème d'ouverture du fichier Wanderer.pgm.\n";
-		return 1;
+	ifstream fichier;
+	int largeur, hauteur;
+	while (true) {
+		if (fichierpgm.empty()) {
+			cout << "Saisissez le nom du fichier pgm (avec l'extension) : ";
+			cin >> fichierpgm;
+		}
+		fichier.open(fichierpgm, ios_base::binary);
+		if (!fichier.is_open()) {
+			cerr << "problème d'ouverture du fichier " << fichierpgm << ".\n";
+			fichierpgm.clear();
+			fichier.clear();
+			continue;
+		}
+		break;
 	}
+
+	getline(fichier, ligne);
+	getline(fichier, ligne);
+	fichier >> largeur >> hauteur;
+	fichier.ignore(numeric_limits<streamsize>::max(), '\n');
 
 	//palette par défaut si --palette n'est pas renseigné
 	vector<string> palette;
@@ -81,19 +95,23 @@ int main(int argc, char* argv[]) {
 		palette = { "W", "w", "l", "i", ":", ",", ".", " " };
 	}
 	else {
-		//ouverture du fichier palette si --palette est renseigné
-		ifstream fichierPalette(nomfichierpalette);
-		if (!fichierPalette.is_open()) {
-			cerr << "problème d'ouverture du fichier " << nomfichierpalette << "\n";
-			return 1;
-		}
+		while (true) {
+			ifstream fichierPalette(nomfichierpalette);
+			if (!fichierPalette.is_open()) {
+				cerr << "problème d'ouverture du fichier " << nomfichierpalette << "\n";
+				nomfichierpalette.clear();
+				cout << "Saisissez le nom du fichier palette (avec l'extension) : ";
+				cin >> nomfichierpalette;
+				continue;
+			}
 
-		// Palette
-		while (getline(fichierPalette, ligne)) {
-			if (!ligne.empty() && ligne.back() == '\r')
-				ligne.pop_back();
-			if (!ligne.empty())
-				palette.push_back(ligne);
+			while (getline(fichierPalette, ligne)) {
+				if (!ligne.empty() && ligne.back() == '\r')
+					ligne.pop_back();
+				if (!ligne.empty())
+					palette.push_back(ligne);
+			}
+			break;
 		}
 	}
 
@@ -116,14 +134,14 @@ int main(int argc, char* argv[]) {
 	vector<unsigned char> donnees(taille);
 	fichier.read(reinterpret_cast<char*>(donnees.data()), taille);
 
-	// Vérification de la lecture
-	if (fichier.gcount() != taille) {
-		cerr << "lecture incomplète : " << fichier.gcount() << " octets lus sur " << taille << "\n";
-		return 1;
+	if (output_txt.empty()) {
+		cout << "Saisissez le nom du fichier txt à créer (avec l'extension) : ";
+		cin >> output_txt;
 	}
 
 	// Écriture dans le fichier output
 	ofstream output(output_txt);
+
 	if (!output.is_open()) {
 		cerr << "problème d'ouverture du fichier " << output_txt << "\n";
 		return 1;
