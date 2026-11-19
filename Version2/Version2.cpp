@@ -65,7 +65,8 @@ int main() { // Version 2 : Enregistrement de l'ASCII art
 	for (int j = 0; j < hauteur; j++) {
 		for (int i = 0; i < largeur; i++) {
 			int valeur_pixel = donnees[j * largeur + i];
-			output << strPalette[valeur_pixel * taillePalette / 256]; //plutot que de faire un cout on insère le texte dans le fichier output
+			output << strPalette[valeur_pixel * taillePalette / 256]; //impression du craractère ASCII le plus proche de l'indice de la valeur du pixel par rapport à la taille de la palette
+			//plutot que de faire un cout on insère le texte dans le fichier output
 		}
 		output << "\n"; //saut de ligne
 	}

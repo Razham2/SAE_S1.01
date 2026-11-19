@@ -35,7 +35,7 @@ int main() { // Version 3 : Choix de la palette
 	fichier >> largeur >> hauteur;
 	fichier.ignore(numeric_limits<streamsize>::max(), '\n');
 
-	vector<string> palette;
+	vector<string> strPalette;
 	while (true) {
 		cout << "Saisissez le nom du fichier palette (avec l'extension) : ";
 		cin >> nomfichierpalette;
@@ -48,7 +48,7 @@ int main() { // Version 3 : Choix de la palette
 			if (!ligne.empty() && ligne.back() == '\r')
 				ligne.pop_back();
 			if (!ligne.empty())
-				palette.push_back(ligne);
+				strPalette.push_back(ligne);
 		}
 		break;
 	}
@@ -57,7 +57,7 @@ int main() { // Version 3 : Choix de la palette
 	cin >> output_txt;
 
 	// Palette : chaque ligne du fichier est un symbole
-	int taillePalette = palette.size();
+	int taillePalette = strPalette.size();
 
 	int taille = largeur * hauteur;
 
@@ -71,7 +71,8 @@ int main() { // Version 3 : Choix de la palette
 	for (int j = 0; j < hauteur; j++) {
 		for (int i = 0; i < largeur; i++) {
 			int valeur_pixel = donnees[j * largeur + i];
-			output << palette[valeur_pixel * taillePalette / 256];
+			output << strPalette[valeur_pixel * taillePalette / 256]; //impression du craractère ASCII le plus proche de l'indice de la valeur du pixel par rapport à la taille de la palette
+			//plutot que de faire un cout on insère le texte dans le fichier output
 		}
 		output << "\n";
 	}

@@ -71,9 +71,9 @@ int main(int argc, char* argv[]) {
 	fichier.ignore(numeric_limits<streamsize>::max(), '\n');
 
 	//palette par défaut si --palette n'est pas renseigné
-	vector<string> palette;
+	vector<string> strPalette;
 	if (nomfichierpalette.empty()) {
-		palette = { "W", "w", "l", "i", ":", ",", ".", " " };
+		strPalette = { "W", "w", "l", "i", ":", ",", ".", " " };
 	}
 	else {
 		while (true) {
@@ -90,13 +90,13 @@ int main(int argc, char* argv[]) {
 				if (!ligne.empty() && ligne.back() == '\r')
 					ligne.pop_back();
 				if (!ligne.empty())
-					palette.push_back(ligne);
+					strPalette.push_back(ligne);
 			}
 			break;
 		}
 	}
 
-	int taillePalette = palette.size();
+	int taillePalette = strPalette.size();
 
 	int taille = largeur * hauteur;
 
@@ -115,7 +115,9 @@ int main(int argc, char* argv[]) {
 	for (int j = 0; j < hauteur; j++) {
 		for (int i = 0; i < largeur; i++) {
 			int valeur_pixel = donnees[j * largeur + i];
-			output << palette[valeur_pixel * taillePalette / 256];
+			output << strPalette[valeur_pixel * taillePalette / 256];	//impression du craractère ASCII le plus proche de l'indice de la valeur du pixel par rapport à la taille de la palette
+			//plutot que de faire un cout on insère le texte dans le fichier output
+
 		}
 		output << "\n";
 	}
