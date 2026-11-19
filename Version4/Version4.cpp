@@ -55,9 +55,9 @@ int main(int argc, char* argv[]) {
 	}
 
 	//palette par défaut si --palette n'est pas renseigné
-	vector<string> palette;
+	vector<string> strPalette;
 	if (nomfichierpalette.empty()) {
-		palette = { "W", "w", "l", "i", ":", ",", ".", " " };
+		strPalette = { "W", "w", "l", "i", ":", ",", ".", " " };
 	}
 	else {
 		ifstream fichierPalette(nomfichierpalette);
@@ -71,11 +71,11 @@ int main(int argc, char* argv[]) {
 			if (!ligne.empty() && ligne.back() == '\r')
 				ligne.pop_back();
 			if (!ligne.empty())
-				palette.push_back(ligne);
+				strPalette.push_back(ligne);
 		}
 	}
 
-	int taillePalette = palette.size();
+	int taillePalette = strPalette.size();
 	if (taillePalette == 0) {
 		cerr << "palette vide\n";
 		return 1;
@@ -109,7 +109,7 @@ int main(int argc, char* argv[]) {
 	for (int j = 0; j < hauteur; j++) {
 		for (int i = 0; i < largeur; i++) {
 			int valeur_pixel = donnees[j * largeur + i];
-			output << palette[valeur_pixel * taillePalette / 256];
+			output << strPalette[valeur_pixel * taillePalette / 256];
 		}
 		output << "\n";
 	}

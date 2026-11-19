@@ -55,8 +55,8 @@ int main(){ // Version 1 : La base
 	for (int j = 0; j < hauteur; j++) {
 		for (int i = 0; i < largeur; i++) {
 			int valeur_pixel = donnees[j * largeur + i];
-			cout << strPalette[(255-valeur_pixel) * taillePalette / 256];
+			cout << strPalette[valeur_pixel * taillePalette / 256]; //plutot que de faire un cout on insère le texte dans le fichier output
 		}
-		cout << "\n";
+		cout << "\n"; //saut de ligne
 	}
 }

@@ -36,15 +36,15 @@ int main() { // Version 3 : Choix de la palette
 	}
 
 	// Palette : chaque ligne du fichier est un symbole
-	vector<string> palette;
+	vector<string> strPalette;
 	while (getline(fichierPalette, ligne)) {
 		if (!ligne.empty() && ligne.back() == '\r')   
 			ligne.pop_back();
 		if (!ligne.empty())                           
-			palette.push_back(ligne);
+			strPalette.push_back(ligne);
 	}
 
-	int taillePalette = palette.size();
+	int taillePalette = strPalette.size();
 	if (taillePalette == 0) {
 		cerr << "palette vide\n";
 		return 1;
@@ -78,7 +78,7 @@ int main() { // Version 3 : Choix de la palette
 	for (int j = 0; j < hauteur; j++) {
 		for (int i = 0; i < largeur; i++) {
 			int valeur_pixel = donnees[j * largeur + i];
-			output << palette[valeur_pixel * taillePalette / 256];
+			output << strPalette[valeur_pixel * taillePalette / 256];
 		}
 		output << "\n";
 	}
