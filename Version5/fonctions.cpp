@@ -38,6 +38,20 @@ Options :
                     Si ce paramètre n'est pas spécifié, la palette par défaut est
                     "W", "w", "l", "i", ":", ",", ".", " "
 
+ --width nombre     Spécifie la largeur max de l'Ascii Art.
+                    Si ce paramètre n'est pas spécifié, aucune limite n'est fixée.
+                    Voir Remarques.
+
+--height nombre     Spécifie la hauteur max de l'Ascii Art.
+                    Si ce paramètre n'est pas spécifié, aucune limite n'est fixée.
+                    Voir Remarques.
+
+Remarques :
+Quelles que soient les valeurs des options --width et --height, la taille de l'Ascii Art
+est bornée par la taille de l'image en entrée. La taille de l'ascii art conserve
+toujours le même ratio que l'image d'entrée, les valeurs des options --width et --height
+ne sont que des maximums.
+
 --help              Affiche cette aide.
 )";
 }
