@@ -3,48 +3,54 @@
 #include <string>
 #include <fstream>
 
+#define NOMINMAX
+#include <windows.h>
+
 using namespace std;
 
-
 int main() { // Version 2 : Enregistrement de l'ASCII art
-	string nomfichierpgm, output_txt, ligne, strPalette, lignePalette;
-	
-	cout << "Saisissez le nom du fichier pgm (avec l'extention) : ";
-	cin >> nomfichierpgm;
-	cout << "Saisissez le nom du fichier txt à creer (avec l'extention) : ";
-	cin >> output_txt;
 
+	SetConsoleOutputCP(CP_UTF8);
+	SetConsoleCP(CP_UTF8);
 
-	//Ouverture du fichier "ImageTest1.pgm" en mode binaire :
-	//ifstream fichier(nomfichierpgm, ios_base::binary);
-	ifstream fichier("Wanderer.pgm", ios_base::binary);
+	string nomfichierpgm, nomPalette, output_txt, ligne, strPalette;
+	ifstream fichier;
+	int largeur, hauteur;
 
-	if (!fichier.is_open())
-		cerr << "problème d'ouverture du fichier " << nomfichierpgm << ".\n";
-
-
-	//ifstream fichierPalette(nomfichierpalette);
-	ifstream fichierPalette("palette.txt");
-
-	if (!fichierPalette.is_open())
-		cerr << "problème d'ouverture du fichier  \"palette.txt.\".\n";
-
-	//On extraie les valeur de palette.txt et on les insère dans le string strPalette
-	while (getline(fichierPalette, ligne)) {
-		for (char caractere : ligne) {
-			strPalette.push_back(caractere);
+	while (true) {
+		cout << "Saisissez le nom du fichier pgm (avec l'extension) : ";
+		cin >> nomfichierpgm;
+		fichier.open(nomfichierpgm, ios_base::binary);
+		if (!fichier.is_open()) {
+			cerr << "problème d'ouverture du fichier " << nomfichierpgm << ".\n";
+			fichier.clear();
+			continue;
 		}
+		break;
 	}
 
-	//décodage de l'entête du fichier
 	getline(fichier, ligne);
 	getline(fichier, ligne);
-
-	int largeur, hauteur;
 	fichier >> largeur >> hauteur;
 
+	while (true) {
+		cout << "Saisissez le nom du fichier palette (avec l'extension) : ";
+		cin >> nomPalette;
+		ifstream fichierPalette(nomPalette);
+		if (!fichierPalette.is_open()) {
+			cerr << "problème d'ouverture du fichier " << nomPalette << ".\n";
+			continue;
+		}
+		while (getline(fichierPalette, ligne))
+			strPalette += ligne;
+		break;
+	}
+
+	cout << "Saisissez le nom du fichier txt à créer (avec l'extension) : ";
+	cin >> output_txt;
+
 	int taille = largeur * hauteur;
-	int taillePalette = strPalette.size();
+	int taillePalette = static_cast<int>(strPalette.size());
 
 
 	//Création d'un tableau qui stocke les valeurs des pixels :

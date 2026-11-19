@@ -19,6 +19,28 @@ double moyenne(std::vector <double> valeurs) {
 }
 
 
+//Fonction prenant comme argument :
+// 
+// - la largeur et la hauteur de l'image
+// - un vecteur de pixels (donnees)
+// - un vecteur de chaînes de caractères représentant la palette
+// - la taille de la palette
+// 
+//Et qui renvoie une chaine de caractères avec les info de l'image convertie en Ascii Art
+string parcoursImage(int largeur, int hauteur, const std::vector<unsigned char>& donnees, const std::vector<string>& palette, int taillePalette) {
+	string output;
+    for (int j = 0; j < hauteur; j++) {
+        for (int i = 0; i < largeur; i++) {
+            int valeur_pixel = donnees[j * largeur + i];
+            output += palette[valeur_pixel * taillePalette / 256];
+        }
+		//retour à la ligne après chaque ligne
+        output += "\n";
+    }
+	return output;
+}
+
+
 void afficherAide() {
     cout << R"(Usage :
 pgm2txt [options]
