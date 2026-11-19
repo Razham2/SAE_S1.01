@@ -11,7 +11,7 @@
 
 using namespace std;
 
-int main(int argc, char* argv[]) { //utilisation via cmd avec arguments
+int main(int argc, char* argv[]) { //Version 4 : utilisation via cmd avec arguments
 
 	SetConsoleOutputCP(CP_UTF8);
 	SetConsoleCP(CP_UTF8);
